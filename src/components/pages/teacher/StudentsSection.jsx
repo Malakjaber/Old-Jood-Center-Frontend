@@ -1,9 +1,9 @@
 import SectionNav from "../../global/SectionNav";
 import StudentsTable from "../../global/students/StudentsTable";
 
-export default function StudentsSection() {
+export default function StudentsSection({ editable }) {
   return (
-    <div className="border-t-2 border-t-lightgray">
+    <div className="border-t-2 border-t-lightgray pb-8">
       <div className="mb-20">
         <SectionNav title={"Student Table"}>
           <div className="flex items-center relative">
@@ -20,7 +20,7 @@ export default function StudentsSection() {
           </div>
         </SectionNav>
       </div>
-      <StudentsTable />
+      <StudentsTable editable={editable} />
     </div>
   );
 }

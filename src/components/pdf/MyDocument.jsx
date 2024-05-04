@@ -34,6 +34,12 @@ const styles = StyleSheet.create({
     width: "140px",
   },
 
+  main: {
+    margin: "20px",
+    display: "flex",
+    flexDirection: "row",
+  },
+
   footer: {
     display: "flex",
     justifyContent: "space-between",
@@ -46,7 +52,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function MyDocument() {
+export default function MyDocument({ teacherName, message }) {
   return (
     <Document style={{ height: "950px", width: "700px" }}>
       <Page size="A4" style={styles.page}>
@@ -56,6 +62,14 @@ export default function MyDocument() {
           </Text>
           <Image style={styles.navImage} src={"/assets/logo/logo2.png"}></Image>
         </View>
+        {teacherName && message ? (
+          <View style={styles.main}>
+            <Text>{teacherName + ": "}</Text>
+            <Text>{message}</Text>
+          </View>
+        ) : (
+          ""
+        )}
         <View style={styles.footer}>
           <View style={styles.info}>
             <Text style={{ fontSize: 16, color: "#252B42", marginBottom: 25 }}>

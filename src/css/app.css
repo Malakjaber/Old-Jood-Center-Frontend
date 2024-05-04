@@ -39,3 +39,11 @@
     rgba(255, 255, 255, 0) 100%
   );
 }
+
+.ql-editor {
+  min-height: 320px; /* Adjust based on your line-height to simulate 10 lines */
+}
+
+.formBG {
+  background-image: linear-gradient(to bottom, #9ddbff, #ffffff);
+}

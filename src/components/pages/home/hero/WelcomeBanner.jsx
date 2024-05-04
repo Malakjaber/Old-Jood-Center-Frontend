@@ -13,15 +13,15 @@ export default function WelcomeBanner() {
       <div className="flex justify-between text-sm font-bold">
         <a
           className="bg-blue rounded px-8 py-4 text-white transition hover:text-blue hover:bg-white border border-white hover:border-blue"
-          href="/"
+          href="/signin"
         >
-          LOGIN
+          Sign In
         </a>
         <a
           className="px-7 rounded py-4 text-blue border border-blue transition hover:text-white hover:bg-blue hover:border-white"
-          href="/"
+          href="/signup"
         >
-          REGISTER
+          Sign Up
         </a>
       </div>
     </div>

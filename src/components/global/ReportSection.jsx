@@ -1,9 +1,9 @@
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import MyDocument from "../../pdf/MyDocument";
-import MyPdfViewer from "../../pdf/MyPdfViewer";
-import SectionNav from "../../global/SectionNav";
+import MyDocument from "../pdf/MyDocument";
+import MyPdfViewer from "../pdf/MyPdfViewer";
+import SectionNav from "./SectionNav";
 
-export default function ReportSection() {
+export default function ReportSection({ date }) {
   return (
     <div id="report">
       <SectionNav title={"View Report"}>
@@ -13,7 +13,7 @@ export default function ReportSection() {
       </SectionNav>
       <div className="report flex justify-around py-20">
         <MyPdfViewer>
-          <MyDocument />
+          <MyDocument teacherName={"Monjed"} message={"Helowwwwwwww"} />
         </MyPdfViewer>
         <div className="flex flex-col">
           <div className="w-[320px] bg-white rounded-2xl px-7 py-10 mb-[70px]">

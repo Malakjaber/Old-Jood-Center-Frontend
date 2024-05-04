@@ -11,6 +11,8 @@ export default function StudentDataTable() {
       data: "1st med/..hr3  / etc...hr3 med / etc...",
     },
   ];
+
+
   return (
     <div className="h-full mr-8">
       {array.map((part) => {

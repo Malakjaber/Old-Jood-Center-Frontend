@@ -1,8 +1,6 @@
-// import { useState } from "react";
 import { Calendar as PrimeCalendar } from "primereact/calendar";
 
-export default function Calendar() {
-  //const [date, setDate] = useState(null);
+export default function Calendar({ onCalendarChange, image }) {
   return (
     <div
       id="calendar"
@@ -16,11 +14,11 @@ export default function Calendar() {
           </p>
         </div>
         <div className="self-center">
-          <PrimeCalendar inline showWeek />
+          <PrimeCalendar onChange={onCalendarChange} inline showWeek />
         </div>
       </div>
-      <div>
-        <img src="/assets/parent/calendar-image.png" alt="" />
+      <div className="my-8">
+        <img src={`/assets/calendar/${image}`} alt="" />
       </div>
     </div>
   );

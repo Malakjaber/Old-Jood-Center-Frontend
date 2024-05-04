@@ -1,11 +1,18 @@
 import NavbarContainer from "../global/NavbarContainer";
-import Calendar from "../pages/parent/Calendar";
+import Calendar from "../global/Calendar";
 import Hero from "../pages/parent/Hero";
-import ReportSection from "../pages/parent/ReportSection";
-import TreatmentSection from "../pages/parent/TreatmentSection";
+import ReportSection from "../global/ReportSection";
+import TreatmentSection from "../global/TreatmentSection";
 import { Link } from "react-scroll";
+import { useState } from "react";
 
 export default function ParentPageLayout() {
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  const onCalendarChange = (event) => {
+    setSelectedDate(event.targen.value);
+  };
+
   return (
     <div>
       <NavbarContainer title={"Parent"}>
@@ -38,7 +45,10 @@ export default function ParentPageLayout() {
         </Link>
       </NavbarContainer>
       <Hero />
-      <Calendar />
+      <Calendar
+        image={"calendar-image.png"}
+        onCalendarChange={onCalendarChange}
+      />
       <ReportSection />
       <TreatmentSection />
     </div>
