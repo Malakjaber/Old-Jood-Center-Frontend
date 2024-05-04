@@ -15,50 +15,50 @@ import CoManagerPageLayout from "./components/layouts/CoManagerPageLayout";
 import EditStudentPageLayout from "./components/layouts/EditStudentPageLayout";
 import AddNewStudentPage from "./components/layouts/AddNewStudentPage";
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false, // Prevents refetch on window focus
-    },
-  },
-});
+// const queryClient = new QueryClient({
+//   defaultOptions: {
+//     queries: {
+//       refetchOnWindowFocus: false, // Prevents refetch on window focus
+//     },
+//   },
+// });
 
 function App() {
   return (
     <PrimeReactProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <div className="scroll-smooth flex flex-col justify-between min-h-[100vh]">
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<HomeLayout />} />
-                <Route path="/parent" element={<ParentPageLayout />} />
-                <Route path="/teacher" element={<TeacherPageLayout />} />
-                <Route path="/co_manager" element={<CoManagerPageLayout />} />
-                <Route path="/student">
-                  <Route path="/student/:id" element={<StudentPageLayout />} />
-                  <Route
-                    path="/student/:id/edit"
-                    element={<EditStudentPageLayout />}
-                  />
-                  <Route
-                    path="/student/createReport/:id"
-                    element={<CreateReport />}
-                  />
-                </Route>
+      {/* <QueryClientProvider client={queryClient}> */}
+      <AuthProvider>
+        <div className="scroll-smooth flex flex-col justify-between min-h-[100vh]">
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<HomeLayout />} />
+              <Route path="/parent" element={<ParentPageLayout />} />
+              <Route path="/teacher" element={<TeacherPageLayout />} />
+              <Route path="/co_manager" element={<CoManagerPageLayout />} />
+              <Route path="/student">
+                <Route path="/student/:id" element={<StudentPageLayout />} />
                 <Route
-                  path="/class/createReport/:id"
-                  element={<CreateTreatementPlan />}
+                  path="/student/:id/edit"
+                  element={<EditStudentPageLayout />}
                 />
-                <Route path="/add-student" element={<AddNewStudentPage />} />
-                <Route path="/signin" element={<SignIn />} />
-                <Route path="/signup" element={<SignUp />} />
-              </Routes>
-            </BrowserRouter>
-            <Footer />
-          </div>
-        </AuthProvider>
-      </QueryClientProvider>
+                <Route
+                  path="/student/createReport/:id"
+                  element={<CreateReport />}
+                />
+              </Route>
+              <Route
+                path="/class/createReport/:id"
+                element={<CreateTreatementPlan />}
+              />
+              <Route path="/add-student" element={<AddNewStudentPage />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/signup" element={<SignUp />} />
+            </Routes>
+          </BrowserRouter>
+          <Footer />
+        </div>
+      </AuthProvider>
+      {/* </QueryClientProvider> */}
     </PrimeReactProvider>
   );
 }

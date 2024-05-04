@@ -1,5 +1,5 @@
 import React from "react";
-import QuillEditor from "../layouts/QuillEditor";
+import QuillEditor from "./QuillEditor";
 import { FormControl, InputLabel, NativeSelect } from "@mui/material";
 
 export default function TextFieldForm({
