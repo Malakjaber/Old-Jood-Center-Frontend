@@ -13,6 +13,7 @@ export default function CreateReport() {
         setValue={setValue}
         onSubmit={onSubmit}
         selected={"Ali"}
+        type="report"
       />
     </div>
   );

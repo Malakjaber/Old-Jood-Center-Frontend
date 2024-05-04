@@ -12,6 +12,8 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import SignUp from "./components/pages/user/SignUp";
 import CreateTreatementPlan from "./components/pages/create-tratement-plan/CreateTreatementPlan";
 import CoManagerPageLayout from "./components/layouts/CoManagerPageLayout";
+import EditStudentPageLayout from "./components/layouts/EditStudentPageLayout";
+import AddNewStudentPage from "./components/layouts/AddNewStudentPage";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,6 +38,10 @@ function App() {
                 <Route path="/student">
                   <Route path="/student/:id" element={<StudentPageLayout />} />
                   <Route
+                    path="/student/:id/edit"
+                    element={<EditStudentPageLayout />}
+                  />
+                  <Route
                     path="/student/createReport/:id"
                     element={<CreateReport />}
                   />
@@ -44,6 +50,7 @@ function App() {
                   path="/class/createReport/:id"
                   element={<CreateTreatementPlan />}
                 />
+                <Route path="/add-student" element={<AddNewStudentPage />} />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/signup" element={<SignUp />} />
               </Routes>

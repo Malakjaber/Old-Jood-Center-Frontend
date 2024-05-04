@@ -4,7 +4,10 @@ import {
   Button,
   Container,
   CssBaseline,
+  FormControl,
   Grid,
+  InputLabel,
+  NativeSelect,
   TextField,
   Typography,
 } from "@mui/material";
@@ -15,36 +18,52 @@ import { Link, useNavigate } from "react-router-dom";
 import { signUpSchema } from "./Validation";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import ErrorSnackbar from "./ErrorSnackbar";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function SignUp() {
   const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
   const [errorSnackbarMessage, setErrorSnackbarMessage] = useState("");
+  const [role, setRole] = useState("parent");
 
   const { post, data, error } = useApi();
+  const { user } = useAuth();
+
   const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
       email: "",
+      id: "",
       password: "",
+      role: "parent",
     },
     validationSchema: signUpSchema,
     onSubmit: async (values) => {
       const body = {
         username: values.firstName + " " + values.lastName,
         email: values.email,
+        id: values.id,
         password: values.password,
-        role: "teacher",
+        role: values.role,
       };
       post(`/users/signup`, body);
     },
   });
+
+  useEffect(() => {
+    if (user) {
+      navigate(`/${user.role}`);
+    }
+  }, [navigate, user]);
+
   useEffect(() => {
     if (data?.sessionId) {
       navigate("/signin");
     }
   }, [data, navigate]);
+
   useEffect(() => {
     if (error) {
       setErrorSnackbarMessage(error);
@@ -116,6 +135,51 @@ export default function SignUp() {
                 helperText={formik.touched.lastName && formik.errors.lastName}
               />
             </Grid>
+            <FormControl sx={{ mt: "1rem", pl: "1rem" }} fullWidth>
+              <InputLabel
+                sx={{ fontSize: "1.2rem", pl: "1.2rem" }}
+                variant="standard"
+                htmlFor="role-select"
+              >
+                Sign up as
+              </InputLabel>
+              <NativeSelect
+                onChange={(event) => {
+                  setRole(event.target.value);
+                  formik.handleChange(event);
+                }}
+                value={formik.values.role}
+                inputProps={{
+                  name: "role",
+                  id: "role-select",
+                }}
+              >
+                <option value={"parent"}>Parent</option>
+                <option value={"teacher"}>Teacher</option>
+                <option value={"co_manager"}>Co-Manager</option>
+                <option value={"manager"}>Manager</option>
+              </NativeSelect>
+            </FormControl>
+            {role === "parent" ? (
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="id"
+                  label="ID"
+                  name="id"
+                  autoComplete="id"
+                  onChange={formik.handleChange}
+                  value={formik.values.id}
+                  onBlur={formik.handleBlur}
+                  error={formik.touched.id && formik.errors.id}
+                  helperText={formik.touched.id && formik.errors.id}
+                />
+              </Grid>
+            ) : (
+              ""
+            )}
             <Grid item xs={12}>
               <TextField
                 variant="outlined"

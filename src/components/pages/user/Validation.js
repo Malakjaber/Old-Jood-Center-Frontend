@@ -10,6 +10,11 @@ export const signUpSchema = yup.object({
     .string()
     .required("Password is required")
     .min(6, "Password must be at least 6 characters"),
+  // role: yup.string().default("parent"),
+  // id: yup
+  //   .string()
+  //   .required("Parent id is required")
+  //   .min(8, "ID must be at least 8 characters"),
 });
 export const signInSchema = yup.object({
   email: yup

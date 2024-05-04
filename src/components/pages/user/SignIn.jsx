@@ -58,7 +58,7 @@ export default function SignIn() {
       signIn({ ...data.userdata });
       navigate(`/${data.userdata.role}`);
     }
-  }, [data, error, navigate]);
+  }, [data, error, navigate, signIn]);
 
   useEffect(() => {
     if (error) {
