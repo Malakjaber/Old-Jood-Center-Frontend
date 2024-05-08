@@ -19,8 +19,12 @@ export const AuthProvider = ({ children }) => {
     cb(); // Callback function after sign-out
   };
 
+  const getRole = () => {
+    return user?.role;
+  };
+
   return (
-    <AuthContext.Provider value={{ user, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, signIn, signOut, getRole }}>
       {children}
     </AuthContext.Provider>
   );

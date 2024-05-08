@@ -2,11 +2,29 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import SectionNav from "../../global/SectionNav";
 import StudentsTable from "../../global/students/StudentsTable";
+import useGetStudents from "../../queries/useGetStudents";
+import DebouncedInput from "../../global/DebouncedInput";
+import { useState } from "react";
+import { CircularProgress, Sheet } from "@mui/joy";
 
 export default function StudentsSection({ editable }) {
-  const { user } = useAuth();
+  const studentsLimit = 12;
+  const { getRole, user } = useAuth();
+  const [page, setPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { students, count, loading, error } = useGetStudents(
+    user?.userId,
+    studentsLimit,
+    page,
+    searchTerm
+  );
+
+  const handlePageChange = (event, value) => {
+    setPage(value);
+  };
+
   return (
-    <div className="border-t-2 border-t-lightgray pb-8">
+    <div id="students" className="border-t-2 border-t-lightgray pb-8">
       <div className="mb-20">
         <SectionNav title={"Student Table"}>
           <div className="flex items-center relative">
@@ -15,13 +33,15 @@ export default function StudentsSection({ editable }) {
               src="/assets/icons/search.png"
               alt=""
             />
-            <input
-              className="h-8 pl-9 outline-none rounded-md shadow-md"
-              type="text"
-              name="st-search"
+            <DebouncedInput
+              handleSearch={(value) => {
+                setSearchTerm(value);
+                setPage(1);
+              }}
+              placeholder="Search here"
             />
           </div>
-          {user.role === "co_manager" || user.role === "manager" ? (
+          {getRole() === "co_manager" || getRole() === "manager" ? (
             <Link
               to={"/add-student"}
               className="border-2 border-white px-2 py-[0.1rem] rounded-md font-Itim text-lg"
@@ -33,7 +53,28 @@ export default function StudentsSection({ editable }) {
           )}
         </SectionNav>
       </div>
-      <StudentsTable editable={editable} />
+      {!loading ? (
+        <StudentsTable
+          handlePageChange={handlePageChange}
+          studentsLimit={studentsLimit}
+          students={students}
+          editable={editable}
+          page={page}
+          count={count}
+        />
+      ) : (
+        <Sheet
+          sx={{
+            width: "100vw",
+            minHeight: "50vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress size="md" value={20} variant="soft" />
+        </Sheet>
+      )}
     </div>
   );
 }

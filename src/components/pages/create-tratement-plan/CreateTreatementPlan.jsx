@@ -14,6 +14,12 @@ export default function CreateTreatementPlan() {
         onSubmit={onSubmit}
         selected={"Class 2"}
         type={"treatement"}
+        options={[
+          { value: 1, title: "heloo" },
+          { value: 2, title: "heloo2" },
+          { value: 3, title: "heloo3" },
+          { value: 4, title: "heloo4" },
+        ]}
       />
     </div>
   );

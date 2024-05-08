@@ -8,6 +8,7 @@ export default function TextFieldForm({
   selected,
   onSubmit,
   type,
+  options,
 }) {
   return (
     <div className="flex min-h-[100vh]">
@@ -15,7 +16,7 @@ export default function TextFieldForm({
         <QuillEditor value={value} setValue={setValue} />
 
         <div className="flex justify-end gap-5 mt-4">
-          {type !== "report" ? (
+          {type !== "report" && options.length ? (
             <FormControl>
               <InputLabel
                 sx={{ fontSize: "1.3rem" }}
@@ -25,15 +26,17 @@ export default function TextFieldForm({
                 Class
               </InputLabel>
               <NativeSelect
-                // defaultValue={30}
+                defaultValue={options[0].value}
                 inputProps={{
                   name: "class",
                   id: "class-select",
                 }}
               >
-                <option value={10}>Ten</option>
-                <option value={20}>Twenty</option>
-                <option value={30}>Thirty</option>
+                {options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.title}
+                  </option>
+                ))}
               </NativeSelect>
             </FormControl>
           ) : (

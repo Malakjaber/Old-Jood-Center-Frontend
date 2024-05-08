@@ -22,7 +22,7 @@ import AddNewStudentPage from "./components/layouts/AddNewStudentPage";
 //     },
 //   },
 // });
-
+const test = true;
 function App() {
   return (
     <PrimeReactProvider>
@@ -42,7 +42,7 @@ function App() {
                   element={<EditStudentPageLayout />}
                 />
                 <Route
-                  path="/student/createReport/:id"
+                  path="/student/createReport/:id/:stName"
                   element={<CreateReport />}
                 />
               </Route>

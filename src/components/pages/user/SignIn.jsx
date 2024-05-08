@@ -39,15 +39,12 @@ export default function SignIn() {
     initialValues: {
       email: "",
       password: "",
-      role: "parent",
     },
     validationSchema: signInSchema,
     onSubmit: async (values) => {
-      console.log(values);
       let body = {
         email: values.email,
         password: values.password,
-        role: values.role,
       };
       post(`/users/signin`, body);
     },
@@ -127,29 +124,6 @@ export default function SignIn() {
             error={formik.touched.password && formik.errors.password}
             helperText={formik.touched.password && formik.errors.password}
           />
-          <FormControl sx={{ mt: "1rem" }} fullWidth>
-            <InputLabel
-              sx={{ fontSize: "1.2rem" }}
-              variant="standard"
-              htmlFor="role-select"
-            >
-              Sign in as
-            </InputLabel>
-            <NativeSelect
-              onChange={formik.handleChange}
-              value={formik.values.role}
-              defaultValue={"parent"}
-              inputProps={{
-                name: "role",
-                id: "role-select",
-              }}
-            >
-              <option value={"parent"}>Parent</option>
-              <option value={"teacher"}>Teacher</option>
-              <option value={"co_manager"}>Co-Manager</option>
-              <option value={"manager"}>Manager</option>
-            </NativeSelect>
-          </FormControl>
           {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
