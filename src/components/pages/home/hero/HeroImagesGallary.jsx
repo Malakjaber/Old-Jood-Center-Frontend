@@ -8,7 +8,7 @@ export default function HeroImagesGallary() {
     { original: "/assets/homeCarouselImages/image4.png" },
   ];
   return (
-    <div className="mt-[385px] h-fit w-[1111px] mr-auto border-[20px] border-primary">
+    <div className="mt-[385px] h-fit w-[940px] mr-auto border-[20px] border-primary">
       <ImageGallery
         autoPlay={true}
         showNav={false}

@@ -15,9 +15,9 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import useApi from "../../hooks/useApi";
 import { Link, useNavigate } from "react-router-dom";
-import { signUpSchema } from "./Validation";
+import { signUpSchema } from "../../validation/Validation";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import ErrorSnackbar from "./ErrorSnackbar";
+import MySnackbar from "../../global/MySnackbar";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function SignUp() {
@@ -73,7 +73,8 @@ export default function SignUp() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <ErrorSnackbar
+      <MySnackbar
+        severity="error"
         content={errorSnackbarMessage}
         open={openErrorSnackbar}
         handleClose={() => {

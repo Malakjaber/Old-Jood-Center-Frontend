@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import NavbarContainer from "../global/NavbarContainer";
 import { Link } from "react-router-dom";
-import StudentsSection from "../pages/teacher/StudentsSection";
+import StudentsSectionContainer from "./StudentsSectionContainer";
 import Hero from "../pages/co-manager/Hero";
+import useRoleRedirect from "../hooks/useRoleRedirect";
 
 export default function CoManagerPageLayout() {
+  useRoleRedirect(["co_manager"]);
+
   return (
     <div>
       <NavbarContainer title={"Co-Manager"}>
@@ -19,7 +22,7 @@ export default function CoManagerPageLayout() {
         </Link>
       </NavbarContainer>
       <Hero />
-      <StudentsSection editable={true} />
+      <StudentsSectionContainer editable={true} />
     </div>
   );
 }

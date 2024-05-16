@@ -1,151 +1,105 @@
-import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import TextField from "@mui/material/TextField";
 import { useFormik } from "formik";
+import useRoleRedirect from "../hooks/useRoleRedirect";
+import { useParams } from "react-router";
+import useGetStudentData from "../queries/useGetStudentData";
+import SimpleBackdrop from "../global/Backdrop";
+import useGetClasses from "../queries/useGetClasses";
+import { editStudentSchema } from "../validation/Validation";
+import { useEffect, useState } from "react";
+import useApi from "../hooks/useApi";
+import { useAuth } from "../contexts/AuthContext";
+import MySnackbar from "../global/MySnackbar";
+import StudentDetailsForm from "../global/StudentDetailsForm";
 
 export default function EditStudentPageLayout() {
+  const {
+    put,
+    data: editStudentRes,
+    loading: editStudentLoading,
+    error,
+  } = useApi();
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarProps, setSnackbarProps] = useState({
+    severity: "",
+    content: "",
+  });
+
+  useRoleRedirect(["co_manager", "manager"]);
+  const { id } = useParams();
+  const { user } = useAuth();
+  const { studentData, loading } = useGetStudentData(id);
+  const {
+    name,
+    st_id,
+    birth_date,
+    address,
+    medicines,
+    phone,
+    pathological_case,
+    parent_id,
+    class_id,
+  } = studentData;
+
   const formik = useFormik({
     initialValues: {
-      name: "asd",
-      id: "123",
-      dateOfBirth: "",
-      pathologicalCase: "ssss",
-      phone: "",
-      address: "",
-      medicines: "",
-      parentId: "",
+      name: name || "",
+      // st_id: st_id || "",
+      birth_date: birth_date || "",
+      pathological_case: pathological_case || "",
+      phone: phone || "",
+      address: address || "",
+      medicines: medicines || "",
+      parent_id: parent_id || "",
+      class_id: class_id || 1,
     },
-    //     validationSchema: signUpSchema,
-    onSubmit: async (values) => {
-      // const body = {
-      //   username: values.firstName + " " + values.lastName,
-      //   email: values.email,
-      //   password: values.password,
-      //   role: "teacher",
-      // };
-      console.log(values);
+    enableReinitialize: true,
+    validationSchema: editStudentSchema,
+    onSubmit: (values) => {
+      put(`/students/${st_id}`, values, user.sessionId);
     },
   });
+
+  useEffect(() => {
+    if (editStudentRes.message === "success") {
+      setSnackbarProps({
+        severity: "success",
+        content: "Student Edited Successfully",
+      });
+      setOpenSnackbar(true);
+    }
+  }, [editStudentRes]);
+
+  useEffect(() => {
+    if (error) {
+      setSnackbarProps({
+        severity: "error",
+        content: error,
+      });
+      setOpenSnackbar(true);
+    }
+  }, [error]);
+
+  const { classes } = useGetClasses();
+  if (loading) {
+    return <SimpleBackdrop open={true} />;
+  }
+
   return (
     <div className="flex justify-around p-16">
+      <MySnackbar
+        {...snackbarProps}
+        open={openSnackbar}
+        handleClose={() => {
+          setOpenSnackbar(false);
+        }}
+      ></MySnackbar>
       <div className="flex flex-col min-w-[25rem]">
-        <h1 className="text-4xl font-Itim mb-14">EDit Student Information</h1>
-        <FormControl
-          component={"form"}
-          noValidate
-          onSubmit={formik.handleSubmit}
-        >
-          <TextField
-            margin="normal"
-            label="Name"
-            variant="filled"
-            name="name"
-            required
-            // defaultValue={"helloww"}
-            onChange={formik.handleChange}
-            value={formik.values.name}
-            onBlur={formik.handleBlur}
-            // error={formik.touched.firstName && formik.errors.firstName}
-            // helperText={formik.touched.firstName && formik.errors.firstName}
-          />
-          <TextField
-            margin="normal"
-            label="Id"
-            name="id"
-            required
-            variant="filled"
-            // defaultValue={2342}
-            onChange={formik.handleChange}
-            value={formik.values.id}
-            onBlur={formik.handleBlur}
-            // error={formik.touched.firstName && formik.errors.firstName}
-            // helperText={formik.touched.firstName && formik.errors.firstName}
-          />
-          <TextField
-            margin="normal"
-            label="Date of birth"
-            name="dateOfBirth"
-            InputLabelProps={{ shrink: true }}
-            variant="filled"
-            type="date"
-            required
-            onChange={formik.handleChange}
-            value={formik.values.dateOfBirth}
-            onBlur={formik.handleBlur}
-            // error={formik.touched.firstName && formik.errors.firstName}
-            // helperText={formik.touched.firstName && formik.errors.firstName}
-
-            // defaultValue={}
-          />
-          <TextField
-            margin="normal"
-            label="Pathological case"
-            name={"pathologicalCase"}
-            variant="filled"
-            required
-            onChange={formik.handleChange}
-            value={formik.values.pathologicalCase}
-            onBlur={formik.handleBlur}
-            // error={formik.touched.firstName && formik.errors.firstName}
-            // helperText={formik.touched.firstName && formik.errors.firstName}
-            // defaultValue={}
-          />
-          <TextField
-            margin="normal"
-            label="Phone"
-            name="phone"
-            required
-            variant="filled"
-            onChange={formik.handleChange}
-            value={formik.values.phone}
-            onBlur={formik.handleBlur}
-            // error={formik.touched.firstName && formik.errors.firstName}
-            // helperText={formik.touched.firstName && formik.errors.firstName}
-            // defaultValue={}
-          />
-          <TextField
-            margin="normal"
-            label="Address"
-            name="address"
-            variant="filled"
-            size="midum"
-            onChange={formik.handleChange}
-            value={formik.values.address}
-            onBlur={formik.handleBlur}
-            // error={formik.touched.firstName && formik.errors.firstName}
-            // helperText={formik.touched.firstName && formik.errors.firstName}
-            // defaultValue={}
-          />
-          <TextField
-            margin="normal"
-            label="Medicines"
-            name="medicines"
-            required
-            variant="filled"
-            onChange={formik.handleChange}
-            value={formik.values.medicines}
-            onBlur={formik.handleBlur}
-            // error={formik.touched.firstName && formik.errors.firstName}
-            // helperText={formik.touched.firstName && formik.errors.firstName}
-            // defaultValue={}
-          />
-          <TextField
-            margin="normal"
-            label="Parent Id"
-            name="parentId"
-            required
-            variant="filled"
-            onChange={formik.handleChange}
-            value={formik.values.parentId}
-            onBlur={formik.handleBlur}
-            // error={formik.touched.firstName && formik.errors.firstName}
-            // helperText={formik.touched.firstName && formik.errors.firstName}
-            // defaultValue={}
-          />
-          <Button sx={{ mt: "1rem" }} type="submit" variant="contained">
-            Submit
-          </Button>
-        </FormControl>
+        <h1 className="text-4xl font-Itim mb-8">EDit Student Information</h1>
+        <StudentDetailsForm
+          formik={formik}
+          classes={classes}
+          loading={editStudentLoading}
+        />
       </div>
       <div className="flex flex-col">
         <img

@@ -8,15 +8,12 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import NativeSelect from "@mui/material/NativeSelect";
 import useApi from "../../hooks/useApi";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useFormik } from "formik";
-import { signInSchema } from "./Validation";
-import ErrorSnackbar from "./ErrorSnackbar";
+import { signInSchema } from "../../validation/Validation";
+import MySnackbar from "../../global/MySnackbar";
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function SignIn() {
@@ -66,7 +63,8 @@ export default function SignIn() {
 
   return (
     <Container component="main" maxWidth="xs">
-      <ErrorSnackbar
+      <MySnackbar
+        severity="error"
         content={errorSnackbarMessage}
         open={openErrorSnackbar}
         handleClose={() => {

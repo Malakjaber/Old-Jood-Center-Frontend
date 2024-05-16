@@ -1,6 +1,6 @@
 import { Calendar as PrimeCalendar } from "primereact/calendar";
 
-export default function Calendar({ onCalendarChange, image }) {
+export default function Calendar({ onCalendarChange, date, image }) {
   return (
     <div
       id="calendar"
@@ -14,7 +14,12 @@ export default function Calendar({ onCalendarChange, image }) {
           </p>
         </div>
         <div className="self-center">
-          <PrimeCalendar onChange={onCalendarChange} inline showWeek />
+          <PrimeCalendar
+            onChange={onCalendarChange}
+            value={date}
+            inline
+            showWeek
+          />
         </div>
       </div>
       <div className="my-8">

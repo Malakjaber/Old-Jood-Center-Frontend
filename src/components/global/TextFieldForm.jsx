@@ -1,10 +1,10 @@
 import React from "react";
 import QuillEditor from "./QuillEditor";
 import { FormControl, InputLabel, NativeSelect } from "@mui/material";
+import { Button } from "@mui/joy";
 
 export default function TextFieldForm({
-  value,
-  setValue,
+  setContent,
   selected,
   onSubmit,
   type,
@@ -13,7 +13,7 @@ export default function TextFieldForm({
   return (
     <div className="flex min-h-[100vh]">
       <div className="w-full p-10">
-        <QuillEditor value={value} setValue={setValue} />
+        <QuillEditor setContent={setContent} />
 
         <div className="flex justify-end gap-5 mt-4">
           {type !== "report" && options.length ? (
@@ -43,12 +43,15 @@ export default function TextFieldForm({
             ""
           )}
 
-          <button
+          {/* <button
             onClick={onSubmit}
             className="bg-blue px-5 py-2 text-white w-fit rounded-md font-Itim text-xl border border-blue hover:bg-white hover:text-blue transition"
           >
             Submit
-          </button>
+          </button> */}
+          <Button onClick={onSubmit} sx={{ px: 3, py: 1, fontSize: "1rem" }}>
+            Submit
+          </Button>
         </div>
       </div>
       {type === "report" ? (

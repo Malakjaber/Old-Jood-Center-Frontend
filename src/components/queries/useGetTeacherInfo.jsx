@@ -1,23 +1,21 @@
 import { useState, useEffect } from "react";
 import useApi from "../hooks/useApi";
 
-const useGetStudentData = (studentId) => {
-  const [studentData, setStudentData] = useState({});
+export default function useGetTeacherInfo(id) {
+  const [teacher, setTeacher] = useState({});
   const { get, data, error, loading } = useApi();
 
   useEffect(() => {
-    if (!studentId) return;
-    get(`/students/${studentId}`);
+    if (!id) return;
+    get(`/teachers/${id}`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [studentId]);
+  }, [id]);
 
   useEffect(() => {
     if (data.message === "success") {
-      setStudentData(data.student);
+      setTeacher(data.teacher);
     }
   }, [data]);
 
-  return { studentData, loading, error };
-};
-
-export default useGetStudentData;
+  return { teacher, loading, error };
+}

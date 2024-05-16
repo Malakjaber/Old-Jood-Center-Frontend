@@ -5,9 +5,12 @@ import ReportSection from "../global/ReportSection";
 import TreatmentSection from "../global/TreatmentSection";
 import { Link } from "react-scroll";
 import { useState } from "react";
+import useRoleRedirect from "../hooks/useRoleRedirect";
 
 export default function ParentPageLayout() {
   const [selectedDate, setSelectedDate] = useState(null);
+
+  useRoleRedirect(["parent"]);
 
   const onCalendarChange = (event) => {
     setSelectedDate(event.targen.value);

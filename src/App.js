@@ -8,25 +8,17 @@ import StudentPageLayout from "./components/layouts/StudentPageLayout";
 import CreateReport from "./components/pages/create-report/CreateReport";
 import { AuthProvider } from "./components/contexts/AuthContext";
 import SignIn from "./components/pages/user/SignIn";
-import { QueryClient, QueryClientProvider } from "react-query";
 import SignUp from "./components/pages/user/SignUp";
 import CreateTreatementPlan from "./components/pages/create-tratement-plan/CreateTreatementPlan";
 import CoManagerPageLayout from "./components/layouts/CoManagerPageLayout";
 import EditStudentPageLayout from "./components/layouts/EditStudentPageLayout";
 import AddNewStudentPage from "./components/layouts/AddNewStudentPage";
+import ManagerPageLayout from "./components/layouts/ManagerPageLayout";
+import TeacherInformationPage from "./components/layouts/TeacherInformationPage";
 
-// const queryClient = new QueryClient({
-//   defaultOptions: {
-//     queries: {
-//       refetchOnWindowFocus: false, // Prevents refetch on window focus
-//     },
-//   },
-// });
-const test = true;
 function App() {
   return (
     <PrimeReactProvider>
-      {/* <QueryClientProvider client={queryClient}> */}
       <AuthProvider>
         <div className="scroll-smooth flex flex-col justify-between min-h-[100vh]">
           <BrowserRouter>
@@ -34,7 +26,9 @@ function App() {
               <Route path="/" element={<HomeLayout />} />
               <Route path="/parent" element={<ParentPageLayout />} />
               <Route path="/teacher" element={<TeacherPageLayout />} />
+              <Route path="/teacher/:id" element={<TeacherInformationPage />} />
               <Route path="/co_manager" element={<CoManagerPageLayout />} />
+              <Route path="/manager" element={<ManagerPageLayout />} />
               <Route path="/student">
                 <Route path="/student/:id" element={<StudentPageLayout />} />
                 <Route
@@ -58,7 +52,6 @@ function App() {
           <Footer />
         </div>
       </AuthProvider>
-      {/* </QueryClientProvider> */}
     </PrimeReactProvider>
   );
 }

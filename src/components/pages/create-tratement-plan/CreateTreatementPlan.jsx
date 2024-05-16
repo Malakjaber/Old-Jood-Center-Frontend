@@ -3,7 +3,7 @@ import SectionNav from "../../global/SectionNav";
 import TextFieldForm from "../../global/TextFieldForm";
 
 export default function CreateTreatementPlan() {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(1);
   const onSubmit = () => {};
   return (
     <div>
@@ -12,7 +12,6 @@ export default function CreateTreatementPlan() {
         value={value}
         setValue={setValue}
         onSubmit={onSubmit}
-        selected={"Class 2"}
         type={"treatement"}
         options={[
           { value: 1, title: "heloo" },

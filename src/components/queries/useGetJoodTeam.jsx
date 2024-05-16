@@ -1,46 +1,43 @@
 import { useState, useEffect } from "react";
 import useApi from "../hooks/useApi"; // Adjust the path as needed to where useApi is located
 
-export default function useGetStudents(
-  userId,
-  role,
-  limit = 12,
-  page,
-  searchTerm,
-  revision
-) {
-  const [students, setStudents] = useState([]);
+export default function useGetJoodTeam(position, limit = 12, page, searchTerm) {
+  const [teachers, setTeachers] = useState([]);
+  const [coManagers, setCoManagers] = useState([]);
   const [count, setCount] = useState(0);
 
   const { get, data, loading, error } = useApi();
 
   useEffect(() => {
-    if (userId && role === "teacher") {
+    if (position === "teachers") {
       get(
-        `/students/teacher/${userId}?limit=${limit}&page=${page}&search=${searchTerm}`
+        `/teachers?limit=${limit}&page=${page}&search=${searchTerm}`,
+        "",
+        true
       );
     } else {
       get(
-        `/students?limit=${limit}&page=${page}&search=${searchTerm}`,
+        `/co_managers?limit=${limit}&page=${page}&search=${searchTerm}`,
         "",
         true
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId, page, searchTerm, limit, role, revision]);
+  }, [page, searchTerm, limit, position]);
 
   useEffect(() => {
     if (data?.message === "success") {
-      setStudents(data.students);
+      setTeachers(data.teachers);
+      setCoManagers(data.co_managers);
       setCount(data.count);
     }
   }, [data]);
 
   return {
-    students,
+    teachers,
+    coManagers,
     count,
     loading,
     error,
-    setStudents,
   };
 }

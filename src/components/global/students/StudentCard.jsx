@@ -1,25 +1,31 @@
 import { Link } from "react-router-dom";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
+import PositionedMenu from "../PositionedMenu";
+import { Box } from "@mui/material";
 
-export default function StudentCard({ student, editable }) {
+export default function StudentCard({
+  student,
+  editable,
+  handleRemoveStudent,
+}) {
   return (
-    <div className="relative">
+    <div className="relative h-full">
       {editable && (
-        <button>
-          <Link to={`/student/${student.st_id}/edit`}>
-            <BorderColorIcon
-              sx={{
-                position: "absolute",
-                right: "0",
-                top: "0",
-                marginTop: "2.5rem",
-                marginRight: "1rem",
-                fontSize: "2rem",
-                color: "#203c4c",
-              }}
-            />
-          </Link>
-        </button>
+        <Box
+          sx={{
+            position: "absolute",
+            right: "0",
+            top: "0",
+            marginTop: "1rem",
+            marginRight: "1rem",
+            fontSize: "2rem",
+            color: "#203c4c",
+          }}
+        >
+          <PositionedMenu
+            handleRemoveStudent={handleRemoveStudent}
+            studentId={student.st_id}
+          />
+        </Box>
       )}
       <Link
         to={`/student/${student.st_id}`}

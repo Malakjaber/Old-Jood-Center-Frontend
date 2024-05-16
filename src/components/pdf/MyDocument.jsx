@@ -5,6 +5,7 @@ import {
   Document,
   StyleSheet,
   Image,
+  usePDF,
 } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
@@ -12,7 +13,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     backgroundColor: "#FFFFFF",
-    color: "#333",
     border: "3px solid #333",
   },
   nav: {
@@ -33,13 +33,11 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: "140px",
   },
-
   main: {
     margin: "20px",
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
   },
-
   footer: {
     display: "flex",
     justifyContent: "space-between",
@@ -50,9 +48,12 @@ const styles = StyleSheet.create({
     padding: 20,
     borderTop: "3px solid #333",
   },
+  teacherName: {
+    fontWeight: 800,
+  },
 });
 
-export default function MyDocument({ teacherName, message }) {
+export default function MyDocument({ teacherName, studentName, report }) {
   return (
     <Document style={{ height: "950px", width: "700px" }}>
       <Page size="A4" style={styles.page}>
@@ -62,10 +63,18 @@ export default function MyDocument({ teacherName, message }) {
           </Text>
           <Image style={styles.navImage} src={"/assets/logo/logo2.png"}></Image>
         </View>
-        {teacherName && message ? (
+        {teacherName && studentName && report ? (
           <View style={styles.main}>
-            <Text>{teacherName + ": "}</Text>
-            <Text>{message}</Text>
+            <View style={{ marginBottom: "22px" }}>
+              <Text>
+                <Text style={styles.teacherName}>{teacherName}</Text> report for{" "}
+                {studentName} - <Text color="#313cb7f">{report.date}</Text>
+              </Text>
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <Text>{teacherName + ": "}</Text>
+              <Text>{report.content}</Text>
+            </View>
           </View>
         ) : (
           ""
