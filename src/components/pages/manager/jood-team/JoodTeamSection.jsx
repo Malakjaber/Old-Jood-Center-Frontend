@@ -1,23 +1,12 @@
-import {
-  Card,
-  CircularProgress,
-  Grid,
-  Option,
-  Select,
-  Sheet,
-  Stack,
-  Typography,
-} from "@mui/joy";
+import { CircularProgress, Option, Select, Sheet, Stack } from "@mui/joy";
 import React, { useState } from "react";
 import SectionNav from "../../../global/SectionNav";
-import { Link } from "react-router-dom";
 import useGetJoodTeam from "../../../queries/useGetJoodTeam";
-import MyPagination from "../../../global/MyPagination";
 import CustomTable from "../../../global/CustomTable";
+import { Link } from "react-router-dom";
 
 export default function JoodTeamSection() {
   const [position, setPosition] = useState("teachers");
-  const [searchTerm, setSearchTerm] = useState("");
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -26,11 +15,18 @@ export default function JoodTeamSection() {
     position,
     rowsPerPage,
     page,
-    searchTerm
+    ""
   );
   return (
-    <Sheet sx={{ pb: "5rem" }}>
-      <SectionNav title={"Jood Team"} />
+    <Sheet sx={{ pb: "5rem" }} id={"team"}>
+      <SectionNav title={"Jood Team"}>
+        <Link
+          to={"/signup"}
+          className="border-2 border-white px-2 py-[0.1rem] rounded-md font-Itim text-lg"
+        >
+          Create new user
+        </Link>
+      </SectionNav>
       {!loading ? (
         <Stack sx={{ p: 4 }} spacing={6}>
           <Select
@@ -44,14 +40,27 @@ export default function JoodTeamSection() {
             <Option value={"teachers"}>Teachers</Option>
             <Option value={"co_managers"}>Co-Managers</Option>
           </Select>
-          <CustomTable
-            rows={position === "teachers" ? teachers : coManagers}
-            setPage={setPage}
-            page={page}
-            setRowsPerPage={setRowsPerPage}
-            rowsPerPage={rowsPerPage}
-            count={count}
-          />
+          {position === "teachers" ? (
+            <CustomTable
+              rows={teachers}
+              setPage={setPage}
+              page={page}
+              setRowsPerPage={setRowsPerPage}
+              rowsPerPage={rowsPerPage}
+              count={count}
+              position={position}
+            />
+          ) : (
+            <CustomTable
+              rows={coManagers}
+              setPage={setPage}
+              page={page}
+              setRowsPerPage={setRowsPerPage}
+              rowsPerPage={rowsPerPage}
+              count={count}
+              position={position}
+            />
+          )}
           {/* <Grid container columns={4} spacing={2}>
             {(teachers || coManagers).map((worker) => {
               console.log(worker);
@@ -100,14 +109,13 @@ export default function JoodTeamSection() {
       ) : (
         <Sheet
           sx={{
-            width: "100vw",
-            minHeight: "50vh",
+            minHeight: "15rem",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
-          <CircularProgress size="md" value={20} variant="soft" />
+          <CircularProgress variant="solid" color="neutral" />
         </Sheet>
       )}
     </Sheet>

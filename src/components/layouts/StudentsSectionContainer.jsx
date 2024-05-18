@@ -14,10 +14,12 @@ export default function StudentsSectionContainer({ editable }) {
   const [revision, setRevision] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
   const { getRole, user } = useAuth();
+  const role = getRole();
+
   const studentsLimit = 12;
   const { students, count, loading, error, setStudents } = useGetStudents(
     user?.userId,
-    getRole(),
+    role,
     studentsLimit,
     page,
     searchTerm,
@@ -31,8 +33,6 @@ export default function StudentsSectionContainer({ editable }) {
   });
 
   const { deleteSt, data: deleteStResponse } = useDeleteStudent();
-
-  const role = getRole();
 
   useEffect(() => {
     if (deleteStResponse?.message === "success") {
@@ -98,9 +98,7 @@ export default function StudentsSectionContainer({ editable }) {
             >
               Add new student
             </Link>
-          ) : (
-            <></>
-          )}
+          ) : null}
         </SectionNav>
       </div>
       {!loading ? (

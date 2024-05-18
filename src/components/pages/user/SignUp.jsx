@@ -19,22 +19,26 @@ import { signUpSchema } from "../../validation/Validation";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import MySnackbar from "../../global/MySnackbar";
 import { useAuth } from "../../contexts/AuthContext";
+import useRoleRedirect from "../../hooks/useRoleRedirect";
 
 export default function SignUp() {
-  const [openErrorSnackbar, setOpenErrorSnackbar] = useState(false);
-  const [errorSnackbarMessage, setErrorSnackbarMessage] = useState("");
-  const [role, setRole] = useState("parent");
+  const [snackbarProps, setSnackbarProps] = useState({
+    severity: "",
+    content: "",
+  });
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const { post, data, error } = useApi();
-  const { user } = useAuth();
 
-  const navigate = useNavigate();
+  // useRoleRedirect(["manager"]);
 
   const formik = useFormik({
     initialValues: {
       firstName: "",
       lastName: "",
       email: "",
+      address: "",
+      phone: "",
       id: "",
       password: "",
       role: "parent",
@@ -44,6 +48,8 @@ export default function SignUp() {
       const body = {
         username: values.firstName + " " + values.lastName,
         email: values.email,
+        address: values.address,
+        phone: values.phone,
         id: values.id,
         password: values.password,
         role: values.role,
@@ -53,32 +59,32 @@ export default function SignUp() {
   });
 
   useEffect(() => {
-    if (user) {
-      navigate(`/${user.role}`);
+    if (data?.message === "success") {
+      setSnackbarProps({
+        severity: "success",
+        content: "User Created Successfully",
+      });
+      setOpenSnackbar(true);
     }
-  }, [navigate, user]);
-
-  useEffect(() => {
-    if (data?.sessionId) {
-      navigate("/signin");
-    }
-  }, [data, navigate]);
+  }, [data]);
 
   useEffect(() => {
     if (error) {
-      setErrorSnackbarMessage(error);
-      setOpenErrorSnackbar(true);
+      setSnackbarProps({
+        severity: "error",
+        content: error,
+      });
+      setOpenSnackbar(true);
     }
   }, [error]);
 
   return (
     <Container component="main" maxWidth="xs">
       <MySnackbar
-        severity="error"
-        content={errorSnackbarMessage}
-        open={openErrorSnackbar}
+        {...snackbarProps}
+        open={openSnackbar}
         handleClose={() => {
-          setOpenErrorSnackbar(false);
+          setOpenSnackbar(false);
         }}
       />
       <CssBaseline />
@@ -94,13 +100,14 @@ export default function SignUp() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Create New Account
         </Typography>
         <Box
           component={"form"}
           noValidate
           onSubmit={formik.handleSubmit}
           className="w-full mt-3"
+          my={5}
         >
           <Grid container spacing={2} className="mb-4">
             <Grid item xs={12} sm={6}>
@@ -146,7 +153,6 @@ export default function SignUp() {
               </InputLabel>
               <NativeSelect
                 onChange={(event) => {
-                  setRole(event.target.value);
                   formik.handleChange(event);
                 }}
                 value={formik.values.role}
@@ -161,26 +167,54 @@ export default function SignUp() {
                 <option value={"manager"}>Manager</option>
               </NativeSelect>
             </FormControl>
-            {role === "parent" ? (
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="id"
-                  label="ID"
-                  name="id"
-                  autoComplete="id"
-                  onChange={formik.handleChange}
-                  value={formik.values.id}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.id && formik.errors.id}
-                  helperText={formik.touched.id && formik.errors.id}
-                />
-              </Grid>
-            ) : (
-              ""
-            )}
+            <Grid item xs={6}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="id"
+                label="ID"
+                name="id"
+                autoComplete="id"
+                onChange={formik.handleChange}
+                value={formik.values.id}
+                onBlur={formik.handleBlur}
+                error={formik.touched.id && formik.errors.id}
+                helperText={formik.touched.id && formik.errors.id}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                type="phone"
+                variant="outlined"
+                required
+                fullWidth
+                id="phone"
+                label="Phone Number"
+                name="phone"
+                autoComplete="phone"
+                onChange={formik.handleChange}
+                value={formik.values.phone}
+                onBlur={formik.handleBlur}
+                error={formik.touched.phone && formik.errors.phone}
+                helperText={formik.touched.phone && formik.errors.phone}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                fullWidth
+                id="address"
+                label="Address"
+                name="address"
+                autoComplete="address"
+                onChange={formik.handleChange}
+                value={formik.values.address}
+                onBlur={formik.handleBlur}
+                error={formik.touched.address && formik.errors.address}
+                helperText={formik.touched.address && formik.errors.address}
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
@@ -216,21 +250,10 @@ export default function SignUp() {
             </Grid>
           </Grid>
           <Button type="submit" fullWidth variant="contained" color="primary">
-            Sign Up
+            Create Account
           </Button>
         </Box>
       </Box>
-      <Grid container justify="flex-end" className="my-4">
-        <Grid item>
-          <Box
-            component={Link}
-            title="Already have an account? Sign in"
-            to={"/signin"}
-          >
-            Already have an account? Sign in
-          </Box>
-        </Grid>
-      </Grid>
     </Container>
   );
 }

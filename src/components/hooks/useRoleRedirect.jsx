@@ -19,7 +19,7 @@ const useRoleRedirect = (targetRoles) => {
       const redirectPath = redirectMap[userRole] || "/signin";
       navigate(redirectPath);
     }
-  }, [userRole, targetRoles, navigate]);
+  }, [userRole, targetRoles]);
 };
 
 export default useRoleRedirect;

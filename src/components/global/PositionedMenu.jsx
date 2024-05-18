@@ -13,10 +13,7 @@ import { Link } from "react-router-dom";
 export default function PositionedMenu({ handleRemoveStudent, studentId }) {
   return (
     <Dropdown>
-      <MenuButton
-        slots={{ root: IconButton }}
-        //   slotProps={{ root: { variant: "outlined", color: "neutral" } }}
-      >
+      <MenuButton slots={{ root: IconButton }}>
         <MoreVert />
       </MenuButton>
       <Menu placement="bottom-end">

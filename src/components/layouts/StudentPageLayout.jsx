@@ -4,27 +4,27 @@ import { useParams } from "react-router-dom";
 import useGetStudentData from "../queries/useGetStudentData";
 import useRoleRedirect from "../hooks/useRoleRedirect";
 import ReportSection from "../global/ReportSection";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Calendar from "../global/Calendar";
 import { useAuth } from "../contexts/AuthContext";
-import SimpleBackdrop from "../global/Backdrop";
 import useGetReports from "../queries/useGetReports";
+import CustomLoader from "../global/CustomLoader";
 
 export default function StudentPageLayout() {
   const { user } = useAuth();
   const { id } = useParams();
   const [date, setDate] = useState(new Date());
-  const { studentData, loading, error } = useGetStudentData(id);
+  const { studentData, loading } = useGetStudentData(id);
   const { reports, loading: reportsLoading } = useGetReports(
     studentData.st_id,
-    user.userId,
+    user?.userId,
     date
   );
 
   useRoleRedirect(["teacher", "co_manager", "manager"]);
 
-  if (loading) {
-    return <SimpleBackdrop open={true} />;
+  if (loading || reportsLoading) {
+    return <CustomLoader />;
   }
 
   const onCalendarChange = (event) => {

@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 import useApi from "../hooks/useApi"; // Adjust the path as needed to where useApi is located
 
-export default function useGetJoodTeam(position, limit = 12, page, searchTerm) {
+export default function useGetJoodTeam(
+  position,
+  limit = 12,
+  page,
+  searchTerm,
+  id
+) {
   const [teachers, setTeachers] = useState([]);
   const [coManagers, setCoManagers] = useState([]);
   const [count, setCount] = useState(0);
@@ -17,7 +23,9 @@ export default function useGetJoodTeam(position, limit = 12, page, searchTerm) {
       );
     } else {
       get(
-        `/co_managers?limit=${limit}&page=${page}&search=${searchTerm}`,
+        `/co_managers?limit=${limit || ""}&page=${page || ""}&search=${
+          searchTerm || ""
+        }&id=${id || ""}`,
         "",
         true
       );

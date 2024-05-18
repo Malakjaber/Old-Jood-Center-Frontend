@@ -1,9 +1,9 @@
-import React from "react";
 import QuillEditor from "./QuillEditor";
-import { FormControl, InputLabel, NativeSelect } from "@mui/material";
-import { Button } from "@mui/joy";
+import { Button, Option, Select, FormControl, FormLabel } from "@mui/joy";
 
 export default function TextFieldForm({
+  value,
+  setValue,
   setContent,
   selected,
   onSubmit,
@@ -15,41 +15,27 @@ export default function TextFieldForm({
       <div className="w-full p-10">
         <QuillEditor setContent={setContent} />
 
-        <div className="flex justify-end gap-5 mt-4">
+        <div className="flex justify-between items-center gap-5 mt-4">
           {type !== "report" && options.length ? (
-            <FormControl>
-              <InputLabel
-                sx={{ fontSize: "1.3rem" }}
-                variant="standard"
-                htmlFor="class-select"
+            <FormControl sx={{ minWidth: "10rem" }}>
+              <FormLabel>Choose Class</FormLabel>
+              <Select
+                size="md"
+                defaultValue={value}
+                onChange={(event, newValue) => setValue(newValue)}
               >
-                Class
-              </InputLabel>
-              <NativeSelect
-                defaultValue={options[0].value}
-                inputProps={{
-                  name: "class",
-                  id: "class-select",
-                }}
-              >
-                {options.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.title}
-                  </option>
+                {options.map(({ class_id, name }) => (
+                  <Option key={class_id} value={class_id}>
+                    {name}
+                  </Option>
                 ))}
-              </NativeSelect>
+              </Select>
             </FormControl>
           ) : (
             ""
           )}
 
-          {/* <button
-            onClick={onSubmit}
-            className="bg-blue px-5 py-2 text-white w-fit rounded-md font-Itim text-xl border border-blue hover:bg-white hover:text-blue transition"
-          >
-            Submit
-          </button> */}
-          <Button onClick={onSubmit} sx={{ px: 3, py: 1, fontSize: "1rem" }}>
+          <Button onClick={onSubmit} sx={{ px: 3, fontSize: "1rem" }}>
             Submit
           </Button>
         </div>
@@ -57,7 +43,9 @@ export default function TextFieldForm({
       {type === "report" ? (
         <div className="w-[30%] flex flex-col items-center pt-24 bg-gradient-to-b from-primary to-white">
           <img className="w-[150px]" src="/assets/user.png" alt="" />
-          <h1 className="font-Itim text-4xl mt-8 px-6">{selected}</h1>
+          <h1 className="font-Itim text-4xl mt-8 px-6 text-center">
+            {selected}
+          </h1>
         </div>
       ) : (
         ""

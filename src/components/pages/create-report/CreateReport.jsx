@@ -33,9 +33,9 @@ export default function CreateReport() {
   const onSubmit = () => {
     post("/reports", {
       content: content,
-      date: new Date(),
+      date: new Date().toISOString(),
       st_id,
-      teacher_id: user.userId,
+      teacher_id: user?.userId,
     });
   };
 

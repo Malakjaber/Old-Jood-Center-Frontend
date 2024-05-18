@@ -6,14 +6,22 @@ import TreatmentSection from "../global/TreatmentSection";
 import { Link } from "react-scroll";
 import { useState } from "react";
 import useRoleRedirect from "../hooks/useRoleRedirect";
+import useGetReports from "../queries/useGetReports";
+import useGetStudentByParent from "../queries/useGetStudentByParent";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function ParentPageLayout() {
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   useRoleRedirect(["parent"]);
+  const { user } = useAuth();
+
+  const { student } = useGetStudentByParent(user?.userId);
+
+  const { report } = useGetReports(student?.st_id, null, selectedDate);
 
   const onCalendarChange = (event) => {
-    setSelectedDate(event.targen.value);
+    setSelectedDate(event.target.value);
   };
 
   return (
@@ -50,6 +58,7 @@ export default function ParentPageLayout() {
       <Hero />
       <Calendar
         image={"calendar-image.png"}
+        date={selectedDate}
         onCalendarChange={onCalendarChange}
       />
       <ReportSection />

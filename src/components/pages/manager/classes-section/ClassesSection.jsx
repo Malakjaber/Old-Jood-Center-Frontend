@@ -1,13 +1,64 @@
+import Sheet from "@mui/joy/Sheet";
 import SectionNav from "../../../global/SectionNav";
-import { Box, Card, Sheet, Typography } from "@mui/joy";
 import useGetClasses from "../../../queries/useGetClasses";
+import ClassCard from "./ClassCard";
+import { Link } from "react-router-dom";
+import useDeleteClass from "../../../queries/useDeleteClass";
+import { useEffect, useState } from "react";
+import MySnackbar from "../../../global/MySnackbar";
 
 export default function ClassesSection() {
-  const { classes } = useGetClasses(0, true);
+  const [revision, setRevision] = useState(1);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarProps, setSnackbarProps] = useState({
+    severity: "",
+    content: "",
+  });
+  const { classes } = useGetClasses(0, true, revision);
+  const { deleteClass, data, error } = useDeleteClass();
+
+  const handleConfirmRemove = (id) => {
+    deleteClass(id);
+  };
+
+  useEffect(() => {
+    if (data.message === "success") {
+      setRevision((rev) => rev + 1);
+      setSnackbarProps({
+        severity: "success",
+        content: "Class Removed Successfully",
+      });
+      setOpenSnackbar(true);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (error) {
+      setSnackbarProps({
+        severity: "error",
+        content: error,
+      });
+      setOpenSnackbar(true);
+    }
+  }, [error]);
 
   return (
-    <Sheet sx={{}}>
-      <SectionNav title={"Jood Classes"} />
+    <Sheet id={"classes"}>
+      <MySnackbar
+        {...snackbarProps}
+        open={openSnackbar}
+        handleClose={() => {
+          setOpenSnackbar(false);
+        }}
+      />
+      <SectionNav title={"Jood Classes"}>
+        <Link
+          to={"/create-class"}
+          className="border-2 border-white px-2 py-[0.1rem] rounded-md font-Itim text-lg"
+        >
+          Create new class
+        </Link>
+      </SectionNav>
       <Sheet
         sx={{
           display: "flex",
@@ -19,35 +70,14 @@ export default function ClassesSection() {
       >
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7 w-[95%]">
           {classes?.map((item) => (
-            <div className="flex flex-col justify-between gap-6">
-              <Card
-                sx={{
-                  padding: "40px",
-                  boxShadow:
-                    "rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px",
-                }}
-              >
-                <Typography
-                  level="h3"
-                  sx={{ color: "#23A6F0", fontWeight: "bold" }}
-                >
-                  {item.className}
-                </Typography>
-                <Box>
-                  <Typography
-                    level="title-md"
-                    sx={{ color: "#888888", fontWeight: "bold" }}
-                  >
-                    Teacher: {item.teacherName}
-                  </Typography>
-                  <Typography
-                    level="title-md"
-                    sx={{ color: "#888888", fontWeight: "bold" }}
-                  >
-                    Number Of Students: {item.studentCount}
-                  </Typography>
-                </Box>
-              </Card>
+            <div
+              key={item.class_id}
+              className="flex flex-col justify-between gap-6"
+            >
+              <ClassCard
+                classData={item}
+                handleConfirmRemove={handleConfirmRemove}
+              />
             </div>
           ))}
         </div>

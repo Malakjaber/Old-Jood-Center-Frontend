@@ -7,9 +7,12 @@ const useGetReports = (st_id, teacher_id, date) => {
 
   useEffect(() => {
     //     if (st_id && teacher_id) {
-    get(`/reports?st_id=${st_id}&&teacher_id=${teacher_id}&&date=${date}`);
+    get(
+      `/reports?st_id=${st_id}&&teacher_id=${teacher_id}&&date=${date.toISOString()}`
+    );
     //     }
-  }, [st_id, teacher_id, date, get]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [st_id, teacher_id, date]);
 
   useEffect(() => {
     if (data.message === "success") {

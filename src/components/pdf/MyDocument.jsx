@@ -5,7 +5,6 @@ import {
   Document,
   StyleSheet,
   Image,
-  usePDF,
 } from "@react-pdf/renderer";
 
 const styles = StyleSheet.create({
@@ -53,7 +52,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function MyDocument({ teacherName, studentName, report }) {
+export default function MyDocument({
+  teacherName,
+  studentName,
+  report,
+  type,
+  treatmentPlan,
+}) {
   return (
     <Document style={{ height: "950px", width: "700px" }}>
       <Page size="A4" style={styles.page}>
@@ -63,17 +68,36 @@ export default function MyDocument({ teacherName, studentName, report }) {
           </Text>
           <Image style={styles.navImage} src={"/assets/logo/logo2.png"}></Image>
         </View>
-        {teacherName && studentName && report ? (
+        {type !== "treatment" ? (
+          teacherName && studentName && report ? (
+            <View style={styles.main}>
+              <View style={{ marginBottom: "22px" }}>
+                <Text>
+                  <Text style={styles.teacherName}>{teacherName}</Text> report
+                  for {studentName} -{" "}
+                  <Text color="#313cb7f">{report.date}</Text>
+                </Text>
+              </View>
+              <View style={{ flexDirection: "row" }}>
+                <Text>{teacherName + ": "}</Text>
+                <Text>{report.content}</Text>
+              </View>
+            </View>
+          ) : (
+            ""
+          )
+        ) : teacherName && treatmentPlan ? (
           <View style={styles.main}>
             <View style={{ marginBottom: "22px" }}>
               <Text>
-                <Text style={styles.teacherName}>{teacherName}</Text> report for{" "}
-                {studentName} - <Text color="#313cb7f">{report.date}</Text>
+                <Text style={styles.teacherName}>{teacherName}</Text> Treatment
+                plan for the class {treatmentPlan["class"]?.name} -{" "}
+                {treatmentPlan.date}
               </Text>
             </View>
             <View style={{ flexDirection: "row" }}>
               <Text>{teacherName + ": "}</Text>
-              <Text>{report.content}</Text>
+              <Text>{treatmentPlan.content}</Text>
             </View>
           </View>
         ) : (
@@ -85,7 +109,7 @@ export default function MyDocument({ teacherName, studentName, report }) {
               Company Info
             </Text>
             <Text style={{ fontSize: 14, color: "#737373", marginBottom: 4 }}>
-              August9,2015
+              9/August/2015
             </Text>
             <Text style={{ fontSize: 14, color: "#737373" }}>
               https://www.facebook.com/jod.institute/
@@ -96,7 +120,7 @@ export default function MyDocument({ teacherName, studentName, report }) {
               Get In Touch
             </Text>
             <Text style={{ fontSize: 14, color: "#737373", marginBottom: 4 }}>
-              972592770099
+              +972592770099
             </Text>
             <Text style={{ fontSize: 14, color: "#737373" }}>
               Duaa_kh_Salahat@hotmail.com

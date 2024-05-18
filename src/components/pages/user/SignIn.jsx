@@ -122,10 +122,6 @@ export default function SignIn() {
             error={formik.touched.password && formik.errors.password}
             helperText={formik.touched.password && formik.errors.password}
           />
-          {/* <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          /> */}
           <Button
             type="submit"
             fullWidth
@@ -138,11 +134,6 @@ export default function SignIn() {
             Sign In
           </Button>
         </Box>
-        <Grid>
-          <Link href="/signup" variant="body2">
-            Don't have an account? Sign Up
-          </Link>
-        </Grid>
       </Box>
     </Container>
   );

@@ -15,6 +15,10 @@ import EditStudentPageLayout from "./components/layouts/EditStudentPageLayout";
 import AddNewStudentPage from "./components/layouts/AddNewStudentPage";
 import ManagerPageLayout from "./components/layouts/ManagerPageLayout";
 import TeacherInformationPage from "./components/layouts/TeacherInformationPage";
+import ClassPageLayout from "./components/layouts/ClassPageLayout";
+import CreateClassPageLayout from "./components/layouts/CreateClassPageLayout";
+import EditClassPageLayout from "./components/layouts/EditClassPageLayout";
+import CoManagerInformationPage from "./components/layouts/CoManagerInformationPage";
 
 function App() {
   return (
@@ -28,6 +32,10 @@ function App() {
               <Route path="/teacher" element={<TeacherPageLayout />} />
               <Route path="/teacher/:id" element={<TeacherInformationPage />} />
               <Route path="/co_manager" element={<CoManagerPageLayout />} />
+              <Route
+                path="/co_manager/:id"
+                element={<CoManagerInformationPage />}
+              />
               <Route path="/manager" element={<ManagerPageLayout />} />
               <Route path="/student">
                 <Route path="/student/:id" element={<StudentPageLayout />} />
@@ -44,6 +52,9 @@ function App() {
                 path="/class/createReport/:id"
                 element={<CreateTreatementPlan />}
               />
+              <Route path="/class/:id" element={<ClassPageLayout />} />
+              <Route path="/create-class" element={<CreateClassPageLayout />} />
+              <Route path="/edit-class/:id" element={<EditClassPageLayout />} />
               <Route path="/add-student" element={<AddNewStudentPage />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/signup" element={<SignUp />} />

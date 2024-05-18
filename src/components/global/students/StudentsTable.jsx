@@ -1,6 +1,7 @@
 import StudentCard from "./StudentCard";
 import Stack from "@mui/joy/Stack";
 import MyPagination from "../MyPagination";
+import { Sheet, Typography } from "@mui/joy";
 
 export default function StudentsTable({
   studentsLimit,
@@ -35,7 +36,16 @@ export default function StudentsTable({
           ) : null}
         </Stack>
       ) : (
-        <h1>No Data</h1>
+        <Sheet
+          sx={{
+            minHeight: "30rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography level="h3">No Students Found!</Typography>
+        </Sheet>
       )}
     </div>
   );

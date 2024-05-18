@@ -1,24 +1,20 @@
 import { useState, useEffect } from "react";
 import useApi from "../hooks/useApi";
 
-export default function useGetClasses(classId, isGetDetails, revision) {
+export default function useGetTeacherClasses(teacherId) {
   const [classes, setClasses] = useState([]);
   const { get, data, error, loading } = useApi();
 
   useEffect(() => {
-    if (isGetDetails) {
-      classId
-        ? get(`/classes/details?class_id=${classId}`)
-        : get(`/classes/details`, "", true);
-    } else {
-      get(`/classes/${classId ? classId : ""}`);
+    if (teacherId) {
+      get(`/teacher-class/${teacherId}`);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [classId, isGetDetails, revision]);
+  }, [teacherId]);
 
   useEffect(() => {
     if (data.message === "success") {
-      setClasses(data.data || []);
+      setClasses(data.classes);
     }
   }, [data]);
 
@@ -28,5 +24,5 @@ export default function useGetClasses(classId, isGetDetails, revision) {
     }
   }, [error]);
 
-  return { classes, loading, error, setClasses };
+  return { classes, loading, error };
 }

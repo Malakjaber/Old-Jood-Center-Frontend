@@ -2,7 +2,6 @@ import { useFormik } from "formik";
 import useRoleRedirect from "../hooks/useRoleRedirect";
 import { useParams } from "react-router";
 import useGetStudentData from "../queries/useGetStudentData";
-import SimpleBackdrop from "../global/Backdrop";
 import useGetClasses from "../queries/useGetClasses";
 import { editStudentSchema } from "../validation/Validation";
 import { useEffect, useState } from "react";
@@ -10,6 +9,7 @@ import useApi from "../hooks/useApi";
 import { useAuth } from "../contexts/AuthContext";
 import MySnackbar from "../global/MySnackbar";
 import StudentDetailsForm from "../global/StudentDetailsForm";
+import CustomLoader from "../global/CustomLoader";
 
 export default function EditStudentPageLayout() {
   const {
@@ -81,7 +81,7 @@ export default function EditStudentPageLayout() {
 
   const { classes } = useGetClasses();
   if (loading) {
-    return <SimpleBackdrop open={true} />;
+    return <CustomLoader />;
   }
 
   return (
@@ -92,7 +92,7 @@ export default function EditStudentPageLayout() {
         handleClose={() => {
           setOpenSnackbar(false);
         }}
-      ></MySnackbar>
+      />
       <div className="flex flex-col min-w-[25rem]">
         <h1 className="text-4xl font-Itim mb-8">EDit Student Information</h1>
         <StudentDetailsForm

@@ -21,11 +21,28 @@ export default function ManagerPageLayout() {
         >
           Students
         </Link>
+        <Link
+          className="hover:cursor-pointer text-lg"
+          to="classes"
+          spy={true}
+          smooth={true}
+          duration={500}
+        >
+          Classes
+        </Link>
+        <Link
+          className="hover:cursor-pointer text-lg"
+          to="team"
+          spy={true}
+          smooth={true}
+          duration={500}
+        >
+          Jood Team
+        </Link>
       </NavbarContainer>
       <Hero />
       <StudentsSectionContainer editable={true} />
       <ClassesSection />
-
       <JoodTeamSection />
     </div>
   );
