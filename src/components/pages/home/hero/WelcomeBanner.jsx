@@ -10,18 +10,12 @@ export default function WelcomeBanner() {
         them to lice and into society .
       </p>
 
-      <div className="flex justify-between text-sm font-bold">
+      <div className="flex text-sm font-bold">
         <a
-          className="bg-blue rounded flex items-center px-7 py-3 text-white transition hover:text-blue hover:bg-white border border-white hover:border-blue"
+          className="bg-blue rounded flex justify-center items-center w-full px-7 py-3 text-white transition hover:text-blue hover:bg-white border border-white hover:border-blue"
           href="/signin"
         >
           Sign In
-        </a>
-        <a
-          className="px-7 rounded flex items-center py-3 text-blue border border-blue transition hover:text-white hover:bg-blue hover:border-white"
-          href="/signup"
-        >
-          Sign Up
         </a>
       </div>
     </div>

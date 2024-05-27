@@ -30,7 +30,7 @@ export default function SignUp() {
 
   const { post, data, error } = useApi();
 
-  // useRoleRedirect(["manager"]);
+  useRoleRedirect(["manager"]);
 
   const formik = useFormik({
     initialValues: {
