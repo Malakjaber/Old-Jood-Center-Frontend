@@ -4,11 +4,12 @@ import Hero from "../pages/parent/Hero";
 import ReportSection from "../global/ReportSection";
 import TreatmentSection from "../global/TreatmentSection";
 import { Link } from "react-scroll";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useRoleRedirect from "../hooks/useRoleRedirect";
 import useGetReports from "../queries/useGetReports";
 import useGetStudentByParent from "../queries/useGetStudentByParent";
 import { useAuth } from "../contexts/AuthContext";
+import { CircularProgress, Sheet } from "@mui/joy";
 
 export default function ParentPageLayout() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -18,11 +19,19 @@ export default function ParentPageLayout() {
 
   const { student } = useGetStudentByParent(user?.userId);
 
-  const { report } = useGetReports(student?.st_id, null, selectedDate);
+  const { reports, loading } = useGetReports(
+    student?.st_id,
+    null,
+    selectedDate
+  );
 
   const onCalendarChange = (event) => {
     setSelectedDate(event.target.value);
   };
+
+  useEffect(() => {
+    console.log(reports);
+  }, [reports]);
 
   return (
     <div>
@@ -61,7 +70,27 @@ export default function ParentPageLayout() {
         date={selectedDate}
         onCalendarChange={onCalendarChange}
       />
-      <ReportSection />
+      {!loading ? (
+        reports.length && reports[0] ? (
+          <ReportSection
+            teacherName={reports[0].teacherName}
+            studentName={student.name}
+            report={reports[0]}
+          />
+        ) : null
+      ) : (
+        <Sheet
+          sx={{
+            width: "100vw",
+            minHeight: "50vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress variant="solid" color="neutral" />
+        </Sheet>
+      )}
       <TreatmentSection />
     </div>
   );

@@ -1,28 +1,14 @@
-import {
-  Autocomplete,
-  Button,
-  FormControl,
-  FormHelperText,
-  FormLabel,
-  Grid,
-  Input,
-} from "@mui/joy";
-import { useFormik } from "formik";
+import Input from "@mui/joy/Input";
+import Autocomplete from "@mui/joy/Autocomplete";
+import Button from "@mui/joy/Button";
+import FormControl from "@mui/joy/FormControl";
+import FormHelperText from "@mui/joy/FormHelperText";
+import FormLabel from "@mui/joy/FormLabel";
+import Grid from "@mui/joy/Grid";
+import { useState } from "react";
 
-export default function EditClassForm({ editClass, classData, teachers }) {
-  const formik = useFormik({
-    initialValues: {
-      className: classData?.className || "",
-      selectedTeacher: classData?.teacherName || "",
-    },
-    onSubmit: (values) => {
-      const selectedTeacher = teachers.find(
-        (teacher) => teacher.username === values.selectedTeacher
-      );
-      const teacherId = selectedTeacher ? selectedTeacher.id : null;
-      editClass(classData.class_id, classData.className, teacherId);
-    },
-  });
+export default function EditClassForm({ formik, teachers }) {
+  const [inputValue, setInputValue] = useState("");
 
   return (
     <form onSubmit={formik.handleSubmit}>
@@ -50,25 +36,20 @@ export default function EditClassForm({ editClass, classData, teachers }) {
             <Autocomplete
               size="lg"
               placeholder="Select Teacher"
-              value={
-                teachers.find(
-                  (teacher) =>
-                    teacher.username === formik.values.selectedTeacher
-                ) || null
-              }
+              value={formik.values.selectedTeacher}
               onChange={(event, newValue) => {
-                formik.setFieldValue(
-                  "selectedTeacher",
-                  newValue?.username || ""
-                );
+                formik.setFieldValue("selectedTeacher", newValue);
               }}
-              inputValue={formik.values.selectedTeacher}
+              inputValue={inputValue}
               onInputChange={(event, newInputValue) => {
-                formik.setFieldValue("selectedTeacher", newInputValue);
+                setInputValue(newInputValue);
               }}
               getOptionLabel={(option) => option.username || ""}
               options={teachers}
               sx={{ width: 400 }}
+              renderInput={(params) => (
+                <Input {...params} required placeholder="Select Teacher" />
+              )}
               required
             />
           </FormControl>

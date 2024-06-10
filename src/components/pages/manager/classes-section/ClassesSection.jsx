@@ -14,7 +14,7 @@ export default function ClassesSection() {
     severity: "",
     content: "",
   });
-  const { classes } = useGetClasses(0, true, revision);
+  const { classes } = useGetClasses(undefined, true, revision);
   const { deleteClass, data, error } = useDeleteClass();
 
   const handleConfirmRemove = (id) => {

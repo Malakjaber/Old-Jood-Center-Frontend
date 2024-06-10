@@ -121,7 +121,7 @@ export default function StudentsSectionContainer({ editable }) {
             justifyContent: "center",
           }}
         >
-          <CircularProgress size="md" value={20} variant="soft" />
+          <CircularProgress variant="solid" color="neutral" />
         </Sheet>
       )}
     </div>

@@ -59,26 +59,17 @@ export default function ClassPageLayout() {
       >
         Class Details
       </Typography>
-      <Grid container columns={1} rowGap={2}>
+      <Stack sx={{ width: "fit-content" }}>
         {dataMap(classData).map(({ label, value }) => (
-          <Grid xs={12}>
-            <Typography
-              level="title-lg"
-              sx={{
-                fontFamily: "Itim",
-                fontWeight: 500,
-                borderRadius: ".5rem",
-                bgcolor: "#e0e0e0",
-                width: "fit-content",
-                px: "1rem",
-                py: ".7rem",
-              }}
-            >
-              {label} {value}
-            </Typography>
-          </Grid>
+          <div
+            key={value}
+            className="flex border-b border-b-lightgray my-5 p-5"
+          >
+            <p className=" text-gray text-2xl mr-3">{label}</p>
+            <p className=" text-2xl overflow-hidden">{value}</p>
+          </div>
         ))}
-      </Grid>
+      </Stack>
     </Stack>
   );
 }

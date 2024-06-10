@@ -1,12 +1,13 @@
 import { Sheet, Stack, Typography } from "@mui/joy";
 import useGetJoodTeam from "../queries/useGetJoodTeam";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useGetClasses from "../queries/useGetClasses";
 import CustomLoader from "../global/CustomLoader";
 import EditClassForm from "../global/EditClassForm";
 import useEditClass from "../queries/useEditClass";
 import MySnackbar from "../global/MySnackbar";
 import { useEffect, useState } from "react";
+import { useFormik } from "formik";
 
 export default function EditClassPageLayout() {
   const { teachers, loading: teachersLoading } = useGetJoodTeam(
@@ -23,8 +24,22 @@ export default function EditClassPageLayout() {
 
   const { editClass, data } = useEditClass();
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const { classes, loading } = useGetClasses(id, true);
+
+  const formik = useFormik({
+    initialValues: {
+      className: "",
+      selectedTeacher: null,
+    },
+    onSubmit: (values) => {
+      const teacherId = values.selectedTeacher
+        ? values.selectedTeacher.id
+        : null;
+      console.log("teacherId: ", teacherId);
+      editClass(classes[0].class_id, values.className, teacherId);
+    },
+  });
 
   useEffect(() => {
     if (data.message === "success") {
@@ -33,8 +48,23 @@ export default function EditClassPageLayout() {
         content: "Class Edited Successfully",
       });
       setOpenSnackbar(true);
+      // setTimeout(() => {
+      //   navigate(-1);
+      // }, 2000);
     }
-  }, [data]);
+  }, [data, navigate]);
+
+  useEffect(() => {
+    if (classes.length > 0) {
+      const initialTeacher =
+        teachers.find((teacher) => teacher.id === classes[0]?.teacher_id) ||
+        null;
+      formik.setValues({
+        className: classes[0]?.className || "",
+        selectedTeacher: initialTeacher,
+      });
+    }
+  }, [classes, teachers]);
 
   if (loading || teachersLoading) {
     return <CustomLoader />;
@@ -59,8 +89,6 @@ export default function EditClassPageLayout() {
     );
   }
 
-  const classData = classes[0];
-
   return (
     <Stack
       sx={{
@@ -84,11 +112,7 @@ export default function EditClassPageLayout() {
       >
         Edit Class
       </Typography>
-      <EditClassForm
-        editClass={editClass}
-        classData={classData}
-        teachers={teachers}
-      />
+      <EditClassForm formik={formik} teachers={teachers} />
     </Stack>
   );
 }
