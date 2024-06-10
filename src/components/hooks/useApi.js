@@ -2,7 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 
 export default function useApi() {
-  const BASE_URL = "http://localhost:3001";
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -21,7 +20,7 @@ export default function useApi() {
 
       const config = {
         method,
-        url: BASE_URL + path,
+        url: "https://jood-center-backend.onrender.com" + path,
         headers: {
           "Content-Type": "application/json",
           Authorization: token,
