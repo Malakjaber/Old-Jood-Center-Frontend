@@ -1,37 +1,72 @@
 import NavbarContainer from "../global/NavbarContainer";
-import Calendar from "../global/Calendar";
 import Hero from "../pages/parent/Hero";
-import ReportSection from "../global/ReportSection";
 import TreatmentSection from "../global/TreatmentSection";
 import { Link } from "react-scroll";
-import { useEffect, useState } from "react";
 import useRoleRedirect from "../hooks/useRoleRedirect";
 import useGetReports from "../queries/useGetReports";
 import useGetStudentByParent from "../queries/useGetStudentByParent";
 import { useAuth } from "../contexts/AuthContext";
 import { CircularProgress, Sheet } from "@mui/joy";
+import DocsTable from "../global/DocsTable";
+import SectionNav from "../global/SectionNav";
+import useGetStudentTreatments from "../queries/useGetStudentTreatments";
+import { useEffect } from "react";
+
+const reportsHeadCells = [
+  {
+    id: "id",
+    label: "Id",
+  },
+  {
+    id: "teacherName",
+    label: "Teacher",
+  },
+  {
+    id: "date",
+    label: "Date",
+  },
+  {
+    id: "content",
+    label: "Content",
+  },
+];
+const treatmentsHeadCells = [
+  {
+    id: "id",
+    label: "Id",
+  },
+  {
+    id: "teacherName",
+    label: "Teacher",
+  },
+  {
+    id: "className",
+    label: "Class",
+  },
+  {
+    id: "date",
+    label: "Date",
+  },
+  {
+    id: "content",
+    label: "Content",
+  },
+];
 
 export default function ParentPageLayout() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
   useRoleRedirect(["parent"]);
   const { user } = useAuth();
 
   const { student } = useGetStudentByParent(user?.userId);
 
-  const { reports, loading } = useGetReports(
+  const { reports, loading: reportsLoading } = useGetReports(
     student?.st_id,
-    null,
-    selectedDate
+    null
   );
 
-  const onCalendarChange = (event) => {
-    setSelectedDate(event.target.value);
-  };
-
-  useEffect(() => {
-    console.log(reports);
-  }, [reports]);
+  const { treatments, loading: treatmentsLoading } = useGetStudentTreatments(
+    student?.st_id
+  );
 
   return (
     <div>
@@ -47,37 +82,39 @@ export default function ParentPageLayout() {
         </Link>
         <Link
           className="hover:cursor-pointer text-lg"
-          to="report"
+          to="reports"
           spy={true}
           smooth={true}
           duration={500}
         >
-          View Report
+          Reports
         </Link>
         <Link
           className="hover:cursor-pointer text-lg"
-          to="treatment"
+          to="treatments"
           spy={true}
           smooth={true}
           duration={500}
         >
-          Read Treatment Plans
+          Treatment Plans
         </Link>
       </NavbarContainer>
       <Hero />
-      <Calendar
-        image={"calendar-image.png"}
-        date={selectedDate}
-        onCalendarChange={onCalendarChange}
-      />
-      {!loading ? (
-        reports.length && reports[0] ? (
-          <ReportSection
-            teacherName={reports[0].teacherName}
-            studentName={student.name}
-            report={reports[0]}
+      <hr className=" border-t-2 border-t-lightgray" />
+      <SectionNav title={"Reports"} />
+
+      {!reportsLoading ? (
+        <div
+          id="reports"
+          className="min-h-[50vh] flex justify-center items-center"
+        >
+          <DocsTable
+            rows={reports}
+            headCells={reportsHeadCells}
+            cellLinkTo={"report"}
+            emptyMsg={"No Reports Found!"}
           />
-        ) : null
+        </div>
       ) : (
         <Sheet
           sx={{
@@ -91,7 +128,34 @@ export default function ParentPageLayout() {
           <CircularProgress variant="solid" color="neutral" />
         </Sheet>
       )}
-      <TreatmentSection />
+      <hr className=" border-t-2 border-t-lightgray" />
+      <SectionNav title={"Treatments"} />
+
+      {!treatmentsLoading ? (
+        <div
+          id="treatments"
+          className="min-h-[50vh] flex justify-center items-center"
+        >
+          <DocsTable
+            rows={treatments}
+            emptyMsg={"No Treatments Found!"}
+            headCells={treatmentsHeadCells}
+            cellLinkTo={"treatment"}
+          />
+        </div>
+      ) : (
+        <Sheet
+          sx={{
+            width: "100vw",
+            minHeight: "50vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CircularProgress variant="solid" color="neutral" />
+        </Sheet>
+      )}
     </div>
   );
 }

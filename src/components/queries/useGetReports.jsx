@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
 import useApi from "../hooks/useApi";
 
-const useGetReports = (st_id, teacher_id, date) => {
+const useGetReports = (st_id, teacher_id, date, id) => {
   const [reports, setReports] = useState([]);
   const { get, data, error, loading } = useApi();
 
   useEffect(() => {
-    get(
-      `/reports?${st_id ? `st_id=${st_id}` : ""}${
-        teacher_id ? `&teacher_id=${teacher_id}` : ""
-      }&date=${date.toISOString()}`
-    );
+    if (st_id || teacher_id) {
+      get(
+        `/reports?${st_id ? `st_id=${st_id}` : ""}${
+          teacher_id ? `&teacher_id=${teacher_id}` : ""
+        }${date ? `&date=${date.toISOString()}` : ""}${id ? `&id=${id}` : ""}`
+      );
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [st_id, teacher_id, date]);
 

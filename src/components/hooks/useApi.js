@@ -20,7 +20,7 @@ export default function useApi() {
 
       const config = {
         method,
-        url: "https://jood-center-backend.onrender.com" + path,
+        url: "http://localhost:3001" + path,
         headers: {
           "Content-Type": "application/json",
           Authorization: token,

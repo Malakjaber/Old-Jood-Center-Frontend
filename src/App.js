@@ -19,6 +19,9 @@ import ClassPageLayout from "./components/layouts/ClassPageLayout";
 import CreateClassPageLayout from "./components/layouts/CreateClassPageLayout";
 import EditClassPageLayout from "./components/layouts/EditClassPageLayout";
 import CoManagerInformationPage from "./components/layouts/CoManagerInformationPage";
+import ReportSection from "./components/global/ReportSection";
+import ReportPageContainer from "./components/layouts/ReportPageContainer";
+import TreatmentPageContainer from "./components/layouts/TreatmentPageContainer";
 
 function App() {
   return (
@@ -51,6 +54,11 @@ function App() {
               <Route
                 path="/class/createReport/:id"
                 element={<CreateTreatementPlan />}
+              />
+              <Route path="/report/:id" element={<ReportPageContainer />} />
+              <Route
+                path="/treatment/:id"
+                element={<TreatmentPageContainer />}
               />
               <Route path="/class/:id" element={<ClassPageLayout />} />
               <Route path="/create-class" element={<CreateClassPageLayout />} />

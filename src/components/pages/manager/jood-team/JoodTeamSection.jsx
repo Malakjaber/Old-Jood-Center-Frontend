@@ -61,50 +61,6 @@ export default function JoodTeamSection() {
               position={position}
             />
           )}
-          {/* <Grid container columns={4} spacing={2}>
-            {(teachers || coManagers).map((worker) => {
-              console.log(worker);
-              // return <CustomTable />;
-              return (
-                <Grid xs={12} sm={1}>
-                  <Card
-                    sx={{ height: "100%" }}
-                    component={Link}
-                    to={
-                      position === "teachers"
-                        ? `/teacher/${worker.teacher_id}`
-                        : `/co_manager/${worker.id}`
-                    }
-                  >
-                    <Stack
-                      spacing={2}
-                      sx={{ display: "flex", alignItems: "center" }}
-                      direction={"column"}
-                    >
-                      <img
-                        className="max-h-[35rem]"
-                        src="/assets/teacher.png"
-                        alt="teacher"
-                      />
-                      <Typography level="h4" textAlign={"center"}>
-                        {worker.username}
-                      </Typography>
-                    </Stack>
-                  </Card>
-                </Grid>
-              );
-            })}
-          </Grid> */}
-          {/* {limit < count ? (
-            <Sheet sx={{ display: "flex", justifyContent: "center" }}>
-              <MyPagination
-                handlePageChange={(e, value) => setPage(value)}
-                limit={limit}
-                count={count}
-                page={page}
-              />
-            </Sheet>
-          ) : null} */}
         </Stack>
       ) : (
         <Sheet

@@ -8,7 +8,9 @@ export default function useGetTreatmentPlan(classId, teacher_id, date) {
   useEffect(() => {
     if (classId) {
       get(
-        `/treatments?classId=${classId}&teacher_id=${teacher_id}&date=${date.toISOString()}`
+        `/treatments?classId=${classId}${
+          teacher_id ? `&teacher_id=${teacher_id}` : ""
+        }${date ? `&date=${date.toISOString()}` : ""}`
       );
     }
   }, [classId, teacher_id, date, get]);
