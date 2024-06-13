@@ -71,7 +71,7 @@ export default function ParentPageLayout() {
   return (
     <div>
       <NavbarContainer title={"Parent"}>
-        <Link
+        {/* <Link
           className="hover:cursor-pointer"
           to="calendar"
           spy={true}
@@ -79,7 +79,7 @@ export default function ParentPageLayout() {
           duration={500}
         >
           <img className="w-8" src="/assets/icons/calendar.svg" alt="" />
-        </Link>
+        </Link> */}
         <Link
           className="hover:cursor-pointer text-lg"
           to="reports"
@@ -100,14 +100,11 @@ export default function ParentPageLayout() {
         </Link>
       </NavbarContainer>
       <Hero />
-      <hr className=" border-t-2 border-t-lightgray" />
-      <SectionNav title={"Reports"} />
+      <hr className="border-t-2 border-t-lightgray" />
+      <SectionNav id="reports" title={"Reports"} />
 
       {!reportsLoading ? (
-        <div
-          id="reports"
-          className="min-h-[50vh] flex justify-center items-center"
-        >
+        <div className="min-h-[50vh] flex justify-center items-center">
           <DocsTable
             rows={reports}
             headCells={reportsHeadCells}
@@ -128,14 +125,9 @@ export default function ParentPageLayout() {
           <CircularProgress variant="solid" color="neutral" />
         </Sheet>
       )}
-      <hr className=" border-t-2 border-t-lightgray" />
-      <SectionNav title={"Treatments"} />
-
+      <SectionNav title={"Treatments"} id="treatments" />
       {!treatmentsLoading ? (
-        <div
-          id="treatments"
-          className="min-h-[50vh] flex justify-center items-center"
-        >
+        <div className="min-h-[50vh] flex justify-center items-center">
           <DocsTable
             rows={treatments}
             emptyMsg={"No Treatments Found!"}

@@ -12,9 +12,5 @@ export default function TreatmentPageContainer() {
   if (loading) {
     return <CustomLoader />;
   }
-  return (
-    <div>
-      <TreatmentSection treatmentPlan={treatment} />
-    </div>
-  );
+  return <TreatmentSection treatmentPlan={treatment} />;
 }
